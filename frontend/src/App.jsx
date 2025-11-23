@@ -8,7 +8,15 @@ export default function App() {
         <div className="mx-auto max-w-5xl px-4 py-4 flex items-center justify-between">
           <Link to="/" className="text-2xl font-semibold text-sky-600">TinyLink</Link>
           <nav>
-            <a className="text-sm text-slate-600" href="/healthz" target="_blank" rel="noreferrer">Health</a>
+            <a
+              className="text-sm text-slate-600"
+              href={`${import.meta.env.VITE_API_BASE}/healthz`}
+              target="_blank"
+              rel="noreferrer"
+            >
+              Health
+            </a>
+
           </nav>
         </div>
       </header>
