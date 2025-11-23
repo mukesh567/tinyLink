@@ -5,26 +5,42 @@ import { listLinks, createLink, deleteLink } from '../api';
 
 export default function Dashboard() {
     const [links, setLinks] = useState([]);
+    const [filteredLinks, setFilteredLinks] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [search, setSearch] = useState("");
 
     async function load() {
-        setLoading(true); setError(null);
+        setLoading(true);
+        setError(null);
         try {
             const data = await listLinks();
             setLinks(data);
+            setFilteredLinks(data);
         } catch (err) {
-            setError(err.message || 'Failed to load');
-        } finally { setLoading(false); }
+            setError(err.message || "Failed to load");
+        } finally {
+            setLoading(false);
+        }
     }
 
-    useEffect(() => { load() }, []);
+    useEffect(() => {
+        load();
+    }, []);
+
+    // search filter handler
+    useEffect(() => {
+        const term = search.toLowerCase();
+        const filtered = links.filter(l =>
+            l.code.toLowerCase().includes(term) ||
+            l.targetUrl.toLowerCase().includes(term)
+        );
+        setFilteredLinks(filtered);
+    }, [search, links]);
 
     async function handleCreate(payload) {
-        const newLink = await createLink(payload);
-        // refresh list
+        await createLink(payload);
         await load();
-        return newLink;
     }
 
     async function handleDelete(code) {
@@ -41,11 +57,24 @@ export default function Dashboard() {
                 <AddLinkForm onCreate={handleCreate} />
             </div>
 
+            {/* 🔍 Search Bar */}
+            <div className="mt-6">
+                <input
+                    type="text"
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                    placeholder="Search by code or URL"
+                    className="w-full max-w-sm border rounded-md px-3 py-2 shadow-sm"
+                />
+            </div>
+
             <div className="mt-6">
                 <h3 className="text-lg font-semibold text-slate-700">All links</h3>
                 {loading && <div className="py-6 text-slate-500">Loading...</div>}
                 {error && <div className="py-6 text-red-600">{error}</div>}
-                {!loading && !error && <LinkTable links={links} onDelete={handleDelete} />}
+                {!loading && !error && (
+                    <LinkTable links={filteredLinks} onDelete={handleDelete} />
+                )}
             </div>
         </div>
     );
