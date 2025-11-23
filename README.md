@@ -21,7 +21,7 @@ This project meets all requirements given in the assignment:
 ## 🚀 Live Deployments
 
 ### **Frontend (Netlify)**
-> https://your-frontend.netlify.app
+> https://tinylinkfrontend.netlify.app/
 
 ### **Backend (Render)**
 > https://tinylink-backend-mmd7.onrender.com
