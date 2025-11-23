@@ -40,7 +40,6 @@ exports.createLink = async (req, res) => {
 exports.listLinks = async (req, res) => {
     try {
         const links = await Link.find({ deleted: { $ne: true } }).sort({ createdAt: -1 });
-        console.log(links);
         res.json(links.map(l => ({
             code: l.code,
             targetUrl: l.targetUrl,
