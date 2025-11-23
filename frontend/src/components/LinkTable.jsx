@@ -26,7 +26,7 @@ export default function LinkTable({ links, onDelete }) {
                     {links.map(l => (
                         <tr key={l.code} className="border-t">
                             <td className="px-4 py-3">
-                                <a className="font-mono text-sky-600" href={`${import.meta.env.VITE_BACKEND_URL}/${l.code}`} target="_blank" rel="noreferrer">{l.code}</a>
+                                <a className="font-mono text-sky-600" href={`${import.meta.env.VITE_API_BASE}/${l.code}`} target="_blank" rel="noreferrer">{l.code}</a>
                             </td>
                             <td className="px-4 py-3">
                                 <div className="max-w-xl">
@@ -37,7 +37,7 @@ export default function LinkTable({ links, onDelete }) {
                             <td className="px-4 py-3">{l.lastClicked ? new Date(l.lastClicked).toLocaleString() : '—'}</td>
                             <td className="px-4 py-3 space-x-2">
                                 <Link to={`/code/${l.code}`} className="text-sm px-2 py-1 bg-slate-100 rounded">Stats</Link>
-                                <button onClick={() => navigator.clipboard.writeText(import.meta.env.VITE_BACKEND_URL + '/' + l.code)} className="text-sm px-2 py-1 bg-sky-50 rounded">Copy</button>
+                                <button onClick={() => navigator.clipboard.writeText(import.meta.env.VITE_API_BASE + '/' + l.code)} className="text-sm px-2 py-1 bg-sky-50 rounded">Copy</button>
                                 <button onClick={() => onDelete(l.code)} className="text-sm px-2 py-1 bg-red-50 text-red-600 rounded">Delete</button>
                             </td>
                         </tr>
